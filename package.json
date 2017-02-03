@@ -21,7 +21,12 @@
     "url": "https://github.com/bracketedrebels/sentites/issues"
   },
   "homepage": "https://github.com/bracketedrebels/sentites#readme",
+  "dependencies": {
+    "object.assign": "4.0.4",
+    "shortid": "2.2.6"
+  },
   "devDependencies": {
+    "@types/shortid": "0.0.28",
     "@types/jasmine": "*",
     "del": "2.2.2",
     "gulp": "3.9.1",

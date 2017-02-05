@@ -4,19 +4,19 @@ import { generate } from 'shortid';
 
 export class Manager {
     public createTag<T>(defaultValue?: T, parentTag?: TagClass<any>): TagClass<T> {
+        let lIdentifier = generate();
         // @TODO: register tag class within the tree
-        return this.generateTagClass(defaultValue, parentTag);
+        return this.generateTagClass(lIdentifier, defaultValue, parentTag);
     }
 
 
 
-    private generateTagClass<T>(defaultValue?: T, parentTag?: TagClass<any>): TagClass<T> {
+    private generateTagClass<T>(identifier: string, defaultValue?: T, parentTag?: TagClass<any>): TagClass<T> {
         return class extends Tag<T> {
-            public static toString = () => generate();
-            constructor( value?: T ) {
-                let lDefaultValue = defaultValue;
-                if ( lDefaultValue instanceof Object ) { super(Object.assign({}, defaultValue, value)); }
-                else { super( arguments.length === 0 ? defaultValue : value); }
+            public static toString(): string { return identifier; }
+            constructor( value?: T ) { super( identifier, arguments.length === 0 
+                ? Object.assign({}, defaultValue)
+                : Tag.normalizeValue(defaultValue, value) );
             }
         };
     }

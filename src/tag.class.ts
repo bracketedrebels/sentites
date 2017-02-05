@@ -1,8 +1,17 @@
 import { generate } from 'shortid';
+import { TagDefaultValueTypes } from './tag.interfaces';
 
-export class Tag<T extends any> {
+export class Tag<T extends TagDefaultValueTypes> {
     public toString(): string { return this.identifier; }
-    constructor( public value: T ) {}
+    constructor( identifier: string, public readonly value: T ) {}
 
-    private identifier = generate();
+    protected static normalizeValue<T>(defaultValue: T, tagValue: T): T {
+        return tagValue instanceof Object
+            ? Object.assign({}, defaultValue, tagValue)
+            : tagValue;
+    }
+
+
+
+    protected identifier: string;
 }

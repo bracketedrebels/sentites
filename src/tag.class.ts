@@ -1,4 +1,3 @@
-import { generate } from 'shortid';
 import { TagDefaultValueTypes } from './tag.interfaces';
 
 export class Tag<T extends TagDefaultValueTypes> {

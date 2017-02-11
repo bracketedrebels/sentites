@@ -1,13 +1,24 @@
 import { Tag } from './tag.class';
 import { TagClass } from './manager.interfaces';
 import { listify } from './entity.helpers';
+import * as _  from 'underscore';
 
 export class Entity {
-    public mark(tags: Tag<any>[] | Tag<any>): Entity { 
+    /**
+     * Get string representation of entity.
+     * @returns unique entity identifier.
+     */
+    public toString(): string { return this.identifier; }
+
+    /**
+     * Mark entity with a specific tag.
+     * @
+     */
+    public mark(tags: Tag<any>[] | Tag<any>): Entity {
         return (this.setTags(listify(tags)), this);
     }
 
-    public unmark(tags: TagClass<any>[] | TagClass<any>): Entity { 
+    public unmark(tags: TagClass<any>[] | TagClass<any>): Entity {
         return (this.removeTags(listify(tags)), this);
     }
 
@@ -22,6 +33,7 @@ export class Entity {
 
 
     private tags: { [i:string]: Tag<any> } = {};
+    private identifier: string = _.uniqueId('ent_');
 
     private tryToGetTag<T>(tag: TagClass<T>): T | void {
         let lTag = this.tags[tag.toString()];

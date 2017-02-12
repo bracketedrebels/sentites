@@ -3,7 +3,7 @@ import { TagClass } from '../manager.interfaces';
 
 import { Query } from './query.class';
 import { QueryTypes } from './query.enums';
-import { andExecutor, setInvertor, orExecutor, setsIntersector, setsUnioner } from './executor.helpers';
+import { andExecutor, orExecutor, notExecutor, setsIntersector, setsUnioner, setInvertor } from './executor.helpers';
 
 
 
@@ -40,7 +40,7 @@ export class QueryExecutor {
             case QueryTypes.and:
                 return andExecutor(tags, ents);
             case QueryTypes.not:
-                return setInvertor(ents, this.entities);
+                return notExecutor(tags[0], this.entities);
         }
     }
 

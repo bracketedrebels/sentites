@@ -1,7 +1,7 @@
 import * as _ from 'underscore';
 
-import { Entity } from '../entity.class';
-import { TagClass } from '../manager.interfaces';
+import { Entity } from './entity.class';
+import { TagClass } from './manager.interfaces';
 
 
 

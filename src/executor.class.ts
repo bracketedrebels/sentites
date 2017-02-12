@@ -1,5 +1,5 @@
-import { Entity } from '../entity.class';
-import { TagClass } from '../manager.interfaces';
+import { Entity } from './entity.class';
+import { TagClass } from './manager.interfaces';
 
 import { Query } from './query.class';
 import { QueryTypes } from './query.enums';

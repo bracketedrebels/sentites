@@ -1,4 +1,4 @@
-import { TagClass } from '../manager.interfaces';
+import { TagClass } from './manager.interfaces';
 import { QueryTypes } from './query.enums';
 import { Query } from './query.class';
 

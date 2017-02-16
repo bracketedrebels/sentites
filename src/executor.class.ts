@@ -16,14 +16,15 @@ export class QueryExecutor {
 
 
 
-    private mutation: Entity[];
-
     private executeRecursive(query: Query, ents: Entity[]): Entity[] {
-        let lTags = [];
-        let lSubqueries = [];
+        let lTags: TagClass<any>[] = [];
+        let lSubqueries: Query[] = [];
         let lType = query.type;
-        query.args.forEach( arg => (arg instanceof Query ? lSubqueries : lTags).push(arg) );
-        let lEntitesSets = [];
+        query.args.forEach( arg => arg instanceof Query
+            ? lSubqueries.push(arg)
+            : lTags.push(arg)
+        );
+        let lEntitesSets: Entity[][] = [];
         if (lTags.length) {
             lEntitesSets.push(this.proceedTags(lType, lTags, ents));
         }

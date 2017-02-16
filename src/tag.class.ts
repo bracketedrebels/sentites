@@ -1,16 +1,10 @@
-import { TagDefaultValueTypes } from './tag.interfaces';
-
-export class Tag<T extends TagDefaultValueTypes> {
+export class Tag<T extends any> {
     public toString(): string { return this.identifier; }
-    constructor( identifier: string, public readonly value: T ) {}
+    constructor( private identifier: string, public readonly value: T ) {}
 
     protected static normalizeValue<T>(defaultValue: T, tagValue: T): T {
-        return tagValue instanceof Object
+        return tagValue.constructor === Object
             ? Object.assign({}, defaultValue, tagValue)
             : tagValue;
     }
-
-
-
-    protected identifier: string;
 }

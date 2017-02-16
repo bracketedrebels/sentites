@@ -1,6 +1,5 @@
 import { Tag } from './tag.class';
 import { TagClass } from './manager.interfaces';
-import { listify } from './entity.helpers';
 import * as _  from 'underscore';
 
 export class Entity {
@@ -15,15 +14,15 @@ export class Entity {
      * @
      */
     public mark(tags: Tag<any>[] | Tag<any>): Entity {
-        return (this.setTags(listify(tags)), this);
+        return (this.setTags(tags instanceof Array ? tags : [tags]), this);
     }
 
     public unmark(tags: TagClass<any>[] | TagClass<any>): Entity {
-        return (this.removeTags(listify(tags)), this);
+        return (this.removeTags(tags instanceof Array ? tags : [tags]), this);
     }
 
     public markedWith(tags: TagClass<any>[] | TagClass<any>, mode: 'and' | 'or' = 'and'): boolean {
-        return this.hasTags(listify(tags), mode);
+        return this.hasTags(tags instanceof Array ? tags : [tags], mode);
     }
 
     public getMark<T>(tag: TagClass<T>): T | void {
@@ -33,7 +32,7 @@ export class Entity {
 
 
     private tags: { [i:string]: Tag<any> } = {};
-    private identifier: string = _.uniqueId('ent_');
+    private identifier: string = _.uniqueId('ent');
 
     private tryToGetTag<T>(tag: TagClass<T>): T | void {
         let lTag = this.tags[tag.toString()];
@@ -41,7 +40,7 @@ export class Entity {
     }
 
     private hasTags(tags: TagClass<any>[], mode: 'and' | 'or'): boolean {
-        let lFilter = tag => tag.toString() in this.tags;
+        let lFilter = (tag: TagClass<any>) => tag.toString() in this.tags;
         return mode === 'and' ? tags.every( lFilter ) : tags.some( lFilter );
     }
 

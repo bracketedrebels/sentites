@@ -3,18 +3,16 @@ import { TagClass } from './manager.interfaces';
 
 import { Query } from './query.class';
 import { QueryTypes } from './query.enums';
-import { andExecutor, orExecutor, notExecutor, setsIntersector, setsUnioner, setInvertor } from './executor.helpers';
+import { andExecutor, orExecutor, setsIntersector, setsUnioner, setInvertor } from './executor.helpers';
 
 
 
 export class QueryExecutor {
     constructor( private entities: Entity[] ) {}
 
-    public execute( query: Query ): Entity[] {
-        return this.executeRecursive(query, this.entities);
+    public execute( query: Query | TagClass<any> ): Entity[] {
+        return this.executeRecursive(query instanceof Query ?  query : new Query(QueryTypes.or, [query]), this.entities);
     }
-
-
 
     private executeRecursive(query: Query, ents: Entity[]): Entity[] {
         let lTags: TagClass<any>[] = [];
@@ -28,7 +26,7 @@ export class QueryExecutor {
         if (lTags.length) {
             lEntitesSets.push(this.proceedTags(lType, lTags, ents));
         }
-        if (lSubqueries) {
+        if (lSubqueries.length) {
             lEntitesSets = lEntitesSets.concat(this.proceedSubqueries(lSubqueries, ents));
         }
         return this.combineEntitiesSets(lType, lEntitesSets);
@@ -36,12 +34,14 @@ export class QueryExecutor {
 
     private proceedTags(type: QueryTypes, tags: TagClass<any>[], ents: Entity[]): Entity[] {
         switch(type) {
+            // no need to distinguish 'not' from 'or' at this step,
+            // due to following set invertion, which will correctly
+            // proceed 'not' query
+            case QueryTypes.not:
             case QueryTypes.or:
                 return orExecutor(tags, ents);
             case QueryTypes.and:
                 return andExecutor(tags, ents);
-            case QueryTypes.not:
-                return notExecutor(tags[0], this.entities);
         }
     }
 
@@ -58,6 +58,10 @@ export class QueryExecutor {
                 return setsUnioner(entSets);
             case QueryTypes.and:
                 return setsIntersector(entSets);
+            case QueryTypes.all:
+                return this.entities.slice();
+            case QueryTypes.none:
+                return [];
             case QueryTypes.not:
                 // assuming that query is valid and consume only one argument
                 return setInvertor(entSets[0], this.entities);

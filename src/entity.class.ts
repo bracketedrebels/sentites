@@ -29,10 +29,14 @@ export class Entity {
         return this.tryToGetTag(tag);
     }
 
+    constructor(id?: string) {
+        this.identifier = id || _.uniqueId('ent');
+    }
+
 
 
     private tags: { [i:string]: Tag<any> } = {};
-    private identifier: string = _.uniqueId('ent');
+    private identifier: string;
 
     private tryToGetTag<T>(tag: TagClass<T>): T | void {
         let lTag = this.tags[tag.toString()];

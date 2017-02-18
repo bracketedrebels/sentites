@@ -7,7 +7,7 @@ import { Tag } from './tag.class';
 
 
 
-describe(`Queries executor`, () => {
+describe(`Manager`, () => {
     const manager = new Manager();
 
     it(`should create an instance`, () => {

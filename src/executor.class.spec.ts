@@ -94,12 +94,6 @@ describe(`Queries executor`, () => {
         expect(executor.execute(AND(TAG1, NOT(TAG1))).sort()).toEqual(
                executor.execute(NONE).sort());
     });
-    it(`should correctly implement De Morgan's laws`, () => {
-        expect(executor.execute(NOT(AND(TAG1, TAG2))).sort()).toEqual(
-               executor.execute(OR(NOT(TAG1), NOT(TAG2))).sort());
-        expect(executor.execute(NOT(OR(TAG1, TAG2))).sort()).toEqual(
-               executor.execute(AND(NOT(TAG1), NOT(TAG2))).sort());
-    });
     it(`should correctly implement double negation law`, () => {
         expect(executor.execute(NOT(NOT(TAG1))).sort()).toEqual(
                executor.execute(TAG1).sort());

@@ -11,7 +11,9 @@ export class QueryExecutor {
     constructor( private entities: Entity[] ) {}
 
     public execute( query: Query | TagClass<any> ): Entity[] {
-        return this.executeRecursive(query instanceof Query ?  query : new Query(QueryTypes.or, [query]), this.entities);
+        return this.executeRecursive(query instanceof Query
+            ? query
+            : new Query(QueryTypes.or, [query, query]), this.entities);
     }
 
     private executeRecursive(query: Query, ents: Entity[]): Entity[] {

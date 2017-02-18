@@ -5,15 +5,15 @@ import { QueryExecutor } from './executor.class';
 import { Query } from './query.class';
 import * as _ from 'underscore';
 
+
+
 export class Manager {
     public queryEntities(query: Query): Entity[] {
-        return this.exeutor.execute(query);
+        return this.executor.execute(query);
     }
 
     public createEntity(): Entity {
-        let lEntity = new Entity(_.uniqueId('ent'));
-        this.entities.push(lEntity);
-        return lEntity;
+        return this.entities[this.entities.push(new Entity(_.uniqueId('ent'))) - 1];
     }
 
     public createTag<T>(defaultValue?: T): TagClass<T> {
@@ -25,7 +25,7 @@ export class Manager {
 
 
     private entities: Entity[] = [];
-    private exeutor: QueryExecutor = new QueryExecutor(this.entities);
+    private executor: QueryExecutor = new QueryExecutor(this.entities);
 
     private generateTagClass<T>(identifier: string, defaultValue?: T): TagClass<T> {
         // tslint:disable:max-classes-per-file

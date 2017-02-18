@@ -11,7 +11,7 @@ export class Manager {
     }
 
     public createEntity(): Entity {
-        let lEntity = new Entity();
+        let lEntity = new Entity(_.uniqueId('ent'));
         this.entities.push(lEntity);
         return lEntity;
     }

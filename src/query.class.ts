@@ -5,6 +5,13 @@ import { QuerySerializable } from './query.interfaces';
 
 
 export class Query {
+    /**
+     * Seriallizes query into string representation. This representatino
+     * is unique for unique query. Note, that representation of query
+     * AND(Tag1, Tag2) is undistinguishable from representation of query
+     * AND(Tag2, Tag1).
+     * @returns query string representation.
+     */
     public toString(): string { return JSON.stringify(this.serialize(), null, 0); }
 
     constructor(

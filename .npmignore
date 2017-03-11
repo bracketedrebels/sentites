@@ -2,6 +2,6 @@ node_modules
 .vscode
 src
 .gitignore
-.gulpfile.js
-tsconfig.json
-tslint.json
+.travis.yml
+dist/*.spec.js
+dist/*.spec.d.ts

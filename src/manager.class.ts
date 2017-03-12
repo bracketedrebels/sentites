@@ -9,6 +9,20 @@ import * as _ from 'underscore';
 
 export class Manager {
     /**
+     * Creates tag for tagging entites and querying them. Tag - is a class, taking
+     * tag value as an argument when instancing.
+     * @argument defaultValue is a value that will be used when no tag value provided
+     *           while instancing. If no default value and no value provided, undefined
+     *           will be set as tag value.
+     * @returns Tag class that can be instanced for entity tagging.
+     */
+    public static createTag<T>(defaultValue?: T): TagClass<T> {
+        let lIdentifier = _.uniqueId('tag');
+        // @TODO: register tag class within the tree
+        return this.generateTagClass(lIdentifier, defaultValue);
+    }
+
+    /**
      * Queries entites via boolean opertaors over the tags. Entities are taken
      * from the Manager local storage which is unique for every Manager instance.
      * @example queryEntities(OR(Tag1, Tag2, NOT(Tag3)));
@@ -29,32 +43,25 @@ export class Manager {
     }
 
     /**
-     * Creates tag for tagging entites and querying them. Tag - is a class, taking
-     * tag value as an argument when instancing.
-     * @argument defaultValue is a value that will be used when no tag value provided
-     *           while instancing. If no default value and no value provided, undefined
-     *           will be set as tag value.
-     * @returns Tag class that can be instanced for entity tagging.
+     * @deprecated since 1.0.2. Will be removed in next major release.
+     * Use static method instead.
      */
     public createTag<T>(defaultValue?: T): TagClass<T> {
-        let lIdentifier = _.uniqueId('tag');
-        // @TODO: register tag class within the tree
-        return this.generateTagClass(lIdentifier, defaultValue);
+        return Manager.createTag(defaultValue);
     }
+
 
 
 
     private entities: Entity[] = [];
     private executor: QueryExecutor = new QueryExecutor(this.entities);
 
-    private generateTagClass<T>(identifier: string, defaultValue?: T): TagClass<T> {
-        // tslint:disable:max-classes-per-file
+    private static generateTagClass<T>(identifier: string, defaultValue?: T): TagClass<T> {
         return class extends Tag<T> {
             public static toString(): string { return identifier; }
             constructor( value?: T ) { super( identifier,
                 Tag.normalizeValue( defaultValue, arguments.length === 0 ? defaultValue : value )
             ); }
         };
-        // tslint:enable:max-classes-per-file
     }
 }

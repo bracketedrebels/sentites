@@ -1,8 +1,9 @@
 import { Tag } from './tag.class';
 import { TagClass } from './manager.interfaces';
+import { Entity as EntityAPI } from './entity.interfaces';
 import * as _  from 'underscore';
 
-export class Entity {
+export class Entity implements EntityAPI {
     /**
      * Get string representation of entity.
      * @returns unique entity identifier (globally unique).
@@ -13,9 +14,9 @@ export class Entity {
      * Mark entity with a specified tags. Note, that if you tagging
      * entity with an instance of Tag class that was already used,
      * then used tag instance will be replaced with the new one.
-     * @argument tags - list of Tag instances or single Tag instance. 
+     * @argument tags - list of Tag instances or single Tag instance.
      */
-    public mark(tags: Tag<any>[] | Tag<any>): Entity {
+    public mark(tags: Tag<any>[] | Tag<any>): this {
         return (this.setTags(tags instanceof Array ? tags : [tags]), this);
     }
 
@@ -24,7 +25,7 @@ export class Entity {
      * @argument tags - list of Tag classes which instances of should be
      *           removed from entity's marks list. 
      */
-    public unmark(tags: TagClass<any>[] | TagClass<any>): Entity {
+    public unmark(tags: TagClass<any>[] | TagClass<any>): this {
         return (this.removeTags(tags instanceof Array ? tags : [tags]), this);
     }
 

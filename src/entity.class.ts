@@ -15,6 +15,7 @@ export class Entity implements EntityAPI {
      * entity with an instance of Tag class that was already used,
      * then used tag instance will be replaced with the new one.
      * @argument tags - list of Tag instances or single Tag instance.
+     * @returns self instance, allowing you to chain calls.
      */
     public mark(tags: Tag<any>[] | Tag<any>): this {
         return (this.setTags(tags instanceof Array ? tags : [tags]), this);
@@ -24,6 +25,7 @@ export class Entity implements EntityAPI {
      * Unmark entity from a specified tags.
      * @argument tags - list of Tag classes which instances of should be
      *           removed from entity's marks list. 
+     * @returns self instance, allowing you to chain calls.
      */
     public unmark(tags: TagClass<any>[] | TagClass<any>): this {
         return (this.removeTags(tags instanceof Array ? tags : [tags]), this);

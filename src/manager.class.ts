@@ -42,14 +42,6 @@ export class Manager {
         return this.entities[this.entities.push(new Entity(_.uniqueId('ent'))) - 1];
     }
 
-    /**
-     * @deprecated since 1.0.2. Will be removed in next major release.
-     * Use static method instead.
-     */
-    public createTag<T>(defaultValueMaker?: () => T): TagClass<T> {
-        return Manager.createTag(defaultValueMaker);
-    }
-
 
 
 

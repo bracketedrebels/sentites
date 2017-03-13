@@ -16,10 +16,10 @@ export class Manager {
      *           will be set as tag value.
      * @returns Tag class that can be instanced for entity tagging.
      */
-    public static createTag<T>(defaultValue?: T): TagClass<T> {
+    public static createTag<T>(defaultValueMaker?: () => T): TagClass<T> {
         let lIdentifier = _.uniqueId('tag');
         // @TODO: register tag class within the tree
-        return this.generateTagClass(lIdentifier, defaultValue);
+        return this.generateTagClass(lIdentifier, defaultValueMaker);
     }
 
     /**
@@ -46,8 +46,8 @@ export class Manager {
      * @deprecated since 1.0.2. Will be removed in next major release.
      * Use static method instead.
      */
-    public createTag<T>(defaultValue?: T): TagClass<T> {
-        return Manager.createTag(defaultValue);
+    public createTag<T>(defaultValueMaker?: () => T): TagClass<T> {
+        return Manager.createTag(defaultValueMaker);
     }
 
 
@@ -56,11 +56,13 @@ export class Manager {
     private entities: Entity[] = [];
     private executor: QueryExecutor = new QueryExecutor(this.entities);
 
-    private static generateTagClass<T>(identifier: string, defaultValue?: T): TagClass<T> {
+    private static generateTagClass<T>(identifier: string, defaultValueMaker?: () => T): TagClass<T> {
         return class extends Tag<T> {
             public static toString(): string { return identifier; }
             constructor( value?: T ) { super( identifier,
-                Tag.normalizeValue( defaultValue, arguments.length === 0 ? defaultValue : value )
+                arguments.length === 0 
+                    ? defaultValueMaker && defaultValueMaker() || undefined
+                    : value
             ); }
         };
     }

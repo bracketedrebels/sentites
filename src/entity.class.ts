@@ -1,7 +1,7 @@
 import { Tag } from './tag.class';
 import { TagClass } from './manager.interfaces';
 import { Entity as EntityAPI } from './entity.interfaces';
-import * as _  from 'underscore';
+import { uniqueId } from 'lodash';
 
 export class Entity implements EntityAPI {
     /**
@@ -60,7 +60,7 @@ export class Entity implements EntityAPI {
      *           If no identiifier provided, then it will be locally generated.
      */
     constructor(id?: string) {
-        this.identifier = id || _.uniqueId('ent');
+        this.identifier = id || uniqueId('ent');
     }
 
 

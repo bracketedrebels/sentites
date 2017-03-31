@@ -4,7 +4,7 @@ import { Entity } from './entity.class';
 import { QueryExecutor } from './executor.class';
 import { Query } from './query.class';
 
-import * as _ from 'underscore';
+import { uniqueId } from 'lodash';
 
 
 
@@ -38,7 +38,7 @@ export class Manager {
      * @returns recently created entity.
      */
     public createEntity(): Entity {
-        return this.entities[this.entities.push(new Entity(_.uniqueId('ent'))) - 1];
+        return this.entities[this.entities.push(new Entity(uniqueId('ent'))) - 1];
     }
 
 
@@ -48,7 +48,7 @@ export class Manager {
     private executor = new QueryExecutor(this.entities);
 
     private static createTagClass<T>(defaultValueMaker?: () => T): TagClass<T> {
-        let lIdentifier = _.uniqueId('tag');
+        let lIdentifier = uniqueId('tag');
         return this.generateTagClass(lIdentifier, defaultValueMaker);
     }
 

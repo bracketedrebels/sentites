@@ -1,4 +1,4 @@
-import * as _ from 'underscore';
+import { union, intersection } from 'lodash';
 
 import { Entity } from './entity.class';
 import { TagClass } from './manager.interfaces';
@@ -19,9 +19,9 @@ export function setInvertor( ents: Entity[], whole: Entity[] ): Entity[] {
 }
 
 export function setsUnioner<T>( sets: T[][] ): T[] {
-    return _.union.apply(_, sets);
+    return union.apply(null, sets);
 }
 
 export function setsIntersector<T>( sets: T[][] ): T[] {
-    return _.intersection.apply(_, sets);
+    return intersection.apply(null, sets);
 }

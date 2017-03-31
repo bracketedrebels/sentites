@@ -22,10 +22,10 @@ describe(`Manager`, () => {
         expect(manager.queryEntities(ALL).sort()).toEqual(entities.sort());
     });
     it(`should correctly create tags`, () => {
-        let CreatedTag = manager.createTag(1);
-        let lTag = new CreatedTag();
-        expect(lTag instanceof CreatedTag).toBeTruthy();
-        expect(lTag instanceof Tag).toBeTruthy();
-        expect(lTag.value).toBe(1);
+        let TAG = Manager.createTag(() => 1);
+        let lTagInstance = new TAG();
+        expect(lTagInstance instanceof TAG).toBeTruthy();
+        expect(lTagInstance instanceof Tag).toBeTruthy();
+        expect(lTagInstance.value).toBe(1);
     });
 });

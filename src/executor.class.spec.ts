@@ -8,15 +8,13 @@ import { AND, NOT, OR, ALL, NONE } from './query.helpers';
 
 
 describe(`Queries executor`, () => {
-    const manager = new Manager();
-
     const [TAG1, TAG2, TAG3, TAG4, TAG5, TAG_NONE] = [
-        manager.createTag(1),
-        manager.createTag(2),
-        manager.createTag(3),
-        manager.createTag(4),
-        manager.createTag(5),
-        manager.createTag('none'),
+        Manager.createTag(() => 1),
+        Manager.createTag(() => 2),
+        Manager.createTag(() => 3),
+        Manager.createTag(() => 4),
+        Manager.createTag(() => 5),
+        Manager.createTag(() => 'none')
     ];
 
     const [e1, e2, e3, e4, e5] = [ new Entity(), new Entity(), new Entity(), new Entity(), new Entity() ];

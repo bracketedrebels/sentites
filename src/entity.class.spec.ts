@@ -6,11 +6,9 @@ import { Manager } from './manager.class';
 
 
 describe(`Entities opertaions`, () => {
-    const manager = new Manager();
-
-    const TAG1 = manager.createTag(1);
-    const TAG2 = manager.createTag(2);
-    const TAG3 = manager.createTag({value: 3});
+    const TAG1 = Manager.createTag(() => 1);
+    const TAG2 = Manager.createTag(() => 2);
+    const TAG3 = Manager.createTag(() => ({value: 3}));
 
     let e = new Entity();
 
@@ -39,7 +37,7 @@ describe(`Entities opertaions`, () => {
     });
     it(`should correctly get mark`, () => {
         expect(e.mark(new TAG1(43)).getMark(TAG1)).toBe(43);
-        expect((<{ value: number }>e.mark(new TAG3({ value: 42 })).getMark(TAG3)).value).toBe(42);
+        expect((e.mark(new TAG3({ value: 42 })).getMark(TAG3) as { value: number }).value).toBe(42);
         expect(e.mark(new TAG1()).getMark(TAG1)).toBe(1);
         expect(e.unmark(TAG1).getMark(TAG1)).toBeUndefined();
     });

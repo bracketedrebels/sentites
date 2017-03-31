@@ -7,11 +7,9 @@ import { QueryTypes } from './query.enums';
 
 
 describe(`Query`, () => {
-    const manager = new Manager();
-
-    const TAG1 = manager.createTag(1);
-    const TAG2 = manager.createTag(2);
-    const TAG3 = manager.createTag(3);
+    const TAG1 = Manager.createTag(() => 1);
+    const TAG2 = Manager.createTag(() => 2);
+    const TAG3 = Manager.createTag(() => 3);
 
     it(`should pass correct queries validation`, () => {
         expect(new Query(QueryTypes.all, [])).toBeTruthy();

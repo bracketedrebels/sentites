@@ -23,11 +23,11 @@
   },
   "homepage": "https://github.com/bracketedrebels/sentites#readme",
   "dependencies": {
-    "underscore": "1.8.3"
+    "lodash": "4.17.4"
   },
   "devDependencies": {
     "@types/jasmine": "*",
-    "@types/underscore": "1.7.36",
+    "@types/lodash": "4.14.61",
     "@types/node": "7.0.5",
     "husky": "^0.13.2",
     "jasmine": "^2.5.2",

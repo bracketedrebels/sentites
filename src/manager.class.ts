@@ -28,7 +28,7 @@ export class Manager {
      * @argument query - boolean query over the tags, created via createTag method.
      * @returns list of entities that satisfied provided query.
      */
-    public queryEntities(query: Query): Entity[] {
+    public queryEntities(query: Query | TagClass<any>): Entity[] {
         return this.executor.execute(query);
     }
 

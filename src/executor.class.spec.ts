@@ -1,22 +1,18 @@
 import 'jasmine';
 
 import { Entity } from './entity.class';
-import { Manager } from './manager.class';
 import { QueryExecutor } from './executor.class';
 import { AND, NOT, OR, ALL, NONE } from './query.helpers';
+import { Tag } from './tag.decorator';
 
-
+@Tag() class TAG1 { }
+@Tag() class TAG2 { }
+@Tag() class TAG3 { }
+@Tag() class TAG4 { }
+@Tag() class TAG5 { }
+@Tag() class TAG_NONE { }
 
 describe(`Queries executor`, () => {
-    const [TAG1, TAG2, TAG3, TAG4, TAG5, TAG_NONE] = [
-        Manager.createTag(() => 1),
-        Manager.createTag(() => 2),
-        Manager.createTag(() => 3),
-        Manager.createTag(() => 4),
-        Manager.createTag(() => 5),
-        Manager.createTag(() => 'none')
-    ];
-
     const [e1, e2, e3, e4, e5] = [ new Entity(), new Entity(), new Entity(), new Entity(), new Entity() ];
     let entities = [e1, e2, e3, e4, e5];
     const executor = new QueryExecutor(entities);

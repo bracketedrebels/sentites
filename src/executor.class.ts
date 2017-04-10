@@ -1,5 +1,5 @@
 import { Entity } from './entity.class';
-import { TagClass } from './manager.interfaces';
+import { Class } from './tag.interfaces';
 
 import { Query } from './query.class';
 import { QueryTypes } from './query.enums';
@@ -10,14 +10,14 @@ import { andExecutor, orExecutor, setsIntersector, setsUnioner, setInvertor } fr
 export class QueryExecutor {
     constructor( private entities: Entity[] ) {}
 
-    public execute( query: Query | TagClass<any> ): Entity[] {
+    public execute( query: Query | Class<any> ): Entity[] {
         return this.executeRecursive(query instanceof Query
             ? query
             : new Query(QueryTypes.or, [query, query]), this.entities);
     }
 
     private executeRecursive(query: Query, ents: Entity[]): Entity[] {
-        let lTags: TagClass<any>[] = [];
+        let lTags: Class<any>[] = [];
         let lSubqueries: Query[] = [];
         let lType = query.type;
         query.args.forEach( arg => arg instanceof Query
@@ -34,7 +34,7 @@ export class QueryExecutor {
         return this.combineEntitiesSets(lType, lEntitesSets);
     }
 
-    private proceedTags(type: QueryTypes, tags: TagClass<any>[], ents: Entity[]): Entity[] {
+    private proceedTags(type: QueryTypes, tags: Class<any>[], ents: Entity[]): Entity[] {
         switch(type) {
             // no need to distinguish 'not' from 'or' at this step,
             // due to following set invertion, which will correctly

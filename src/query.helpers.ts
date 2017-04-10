@@ -1,4 +1,4 @@
-import { TagClass } from './manager.interfaces';
+import { Class } from './tag.interfaces';
 import { QueryTypes } from './query.enums';
 import { Query } from './query.class';
 
@@ -10,7 +10,7 @@ import { Query } from './query.class';
  *          Manager.queryEntities as argument for query execution over
  *          the Manager local storage.
  */
-export function OR(q1: Query | TagClass<any>, q2: Query | TagClass<any>, ...args: Array<Query | TagClass<any>>): Query {
+export function OR(q1: Query | Class<any>, q2: Query | Class<any>, ...args: Array<Query | Class<any>>): Query {
     return new Query(QueryTypes.or, [q1, q2, ...args]);
 }
 
@@ -22,7 +22,7 @@ export function OR(q1: Query | TagClass<any>, q2: Query | TagClass<any>, ...args
  *          Manager.queryEntities as argument for query execution over
  *          the Manager local storage.
  */
-export function AND(q1: Query | TagClass<any>, q2: Query | TagClass<any>, ...args: Array<Query | TagClass<any>>): Query {
+export function AND(q1: Query | Class<any>, q2: Query | Class<any>, ...args: Array<Query | Class<any>>): Query {
     return new Query(QueryTypes.and, [q1, q2, ...args]);
 }
 
@@ -33,7 +33,7 @@ export function AND(q1: Query | TagClass<any>, q2: Query | TagClass<any>, ...arg
  *          Manager.queryEntities as argument for query execution over
  *          the Manager local storage.
  */
-export function NOT( q: Query | TagClass<any> ): Query {
+export function NOT( q: Query | Class<any> ): Query {
     return new Query(QueryTypes.not, [q]);
 }
 

@@ -1,16 +1,16 @@
 import { union, intersection } from 'lodash';
 
 import { Entity } from './entity.class';
-import { TagClass } from './manager.interfaces';
+import { Class } from './tag.interfaces';
 
 
 
 
-export function andExecutor( tags: TagClass<any>[], ents: Entity[] ): Entity[] {
+export function andExecutor( tags: Class<any>[], ents: Entity[] ): Entity[] {
     return ents.filter( e => e.markedWith(tags, 'and'));
 }
 
-export function orExecutor( tags: TagClass<any>[], ents: Entity[] ): Entity[] {
+export function orExecutor( tags: Class<any>[], ents: Entity[] ): Entity[] {
     return ents.filter( e => e.markedWith(tags, 'or'));
 }
 

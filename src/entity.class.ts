@@ -1,7 +1,8 @@
-import { Tag } from './tag.class';
-import { TagClass } from './manager.interfaces';
-import { Entity as EntityAPI } from './entity.interfaces';
 import { uniqueId } from 'lodash';
+
+import { id } from './tag.helpers';
+import { TaggedClassInstance, Class } from './tag.interfaces';
+import { Entity as EntityAPI } from './entity.interfaces';
 
 export class Entity implements EntityAPI {
     /**
@@ -17,7 +18,7 @@ export class Entity implements EntityAPI {
      * @argument tags - list of Tag instances or single Tag instance.
      * @returns self instance, allowing you to chain calls.
      */
-    public mark(tags: Tag<any>[] | Tag<any>): this {
+    public mark(tags: TaggedClassInstance[] | TaggedClassInstance): this {
         return (this.setTags(tags instanceof Array ? tags : [tags]), this);
     }
 
@@ -27,7 +28,7 @@ export class Entity implements EntityAPI {
      *           removed from entity's marks list. 
      * @returns self instance, allowing you to chain calls.
      */
-    public unmark(tags: TagClass<any>[] | TagClass<any>): this {
+    public unmark(tags: Class<any>[] | Class<any>): this {
         return (this.removeTags(tags instanceof Array ? tags : [tags]), this);
     }
 
@@ -40,7 +41,7 @@ export class Entity implements EntityAPI {
      *           specified tags for 'true' result.
      * @returns wether entity tagged with specified tags or not.
      */
-    public markedWith(tags: TagClass<any>[] | TagClass<any>, mode: 'and' | 'or' = 'and'): boolean {
+    public markedWith(tags: Class<any>[] | Class<any>, mode: 'and' | 'or' = 'and'): boolean {
         return this.hasTags(tags instanceof Array ? tags : [tags], mode);
     }
 
@@ -49,7 +50,7 @@ export class Entity implements EntityAPI {
      * @argument tag - Tag class which instance's value will be returned.
      * @returns mark value or undefined if there is no such a mark.
      */
-    public getMark<T>(tag: TagClass<T>): T | void {
+    public getMark<T extends TaggedClassInstance>(tag: Class<T>): T {
         return this.tryToGetTag(tag);
     }
 
@@ -59,30 +60,26 @@ export class Entity implements EntityAPI {
      * @argument id - identifier for entity (suppose globally unique).
      *           If no identiifier provided, then it will be locally generated.
      */
-    constructor(id?: string) {
-        this.identifier = id || uniqueId('ent');
+    constructor(private identifier = uniqueId('ent')) {}
+
+
+
+    private tags: { [i:string]: Object } = {};
+
+    private tryToGetTag<T extends TaggedClassInstance>(tag: Class<T>): T {
+        return this.tags[id(tag)] as T || undefined;
     }
 
-
-
-    private tags: { [i:string]: Tag<any> } = {};
-    private identifier: string;
-
-    private tryToGetTag<T>(tag: TagClass<T>): T | void {
-        let lTag = this.tags[tag.toString()];
-        return lTag ? lTag.value : undefined;
-    }
-
-    private hasTags(tags: TagClass<any>[], mode: 'and' | 'or'): boolean {
-        let lFilter = (tag: TagClass<any>) => tag.toString() in this.tags;
+    private hasTags(tags: Class<any>[], mode: 'and' | 'or'): boolean {
+        let lFilter = (tag: Class<any>) => id(tag) in this.tags;
         return mode === 'and' ? tags.every( lFilter ) : tags.some( lFilter );
     }
 
-    private removeTags(tags: TagClass<any>[]): void {
-        tags.forEach( tag => delete this.tags[tag.toString()] );
+    private removeTags(tags: Class<any>[]): void {
+        tags.forEach( tag => delete this.tags[id(tag)] );
     }
 
-    private setTags(tags: Tag<any>[]): void {
-        tags.forEach( tag => this.tags[tag.toString()] = tag );
+    private setTags(tags: TaggedClassInstance[]): void {
+        tags.forEach( tag => this.tags[id(tag)] = tag );
     }
 }

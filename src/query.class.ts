@@ -1,4 +1,5 @@
-import { TagClass } from './manager.interfaces';
+import { Class } from './tag.interfaces';
+import { id } from './tag.helpers'
 import { QueryTypes } from './query.enums';
 import { QuerySerializable } from './query.interfaces';
 
@@ -16,7 +17,7 @@ export class Query {
 
     constructor(
         public type: QueryTypes,
-        public args: Array<Query | TagClass<any>>
+        public args: Array<Query | Class<any>>
     ) { this.validateQueryConsistency(); }
 
 
@@ -31,7 +32,7 @@ export class Query {
         if (this.type === QueryTypes.not && this.args.length !== 1) {
             throw new Error(`Incorrect 'NOT' query! Must accept single query or single tag.`);
         }
-        if((this.type === QueryTypes.all || this.type === QueryTypes.none) && this.args.length !== 0) {
+        if ((this.type === QueryTypes.all || this.type === QueryTypes.none) && this.args.length !== 0) {
             throw new Error(`'ALL' and 'NONE' are special type of queries. They accept NO arguments.`);
         }
     }
@@ -39,7 +40,7 @@ export class Query {
     private serialize(): QuerySerializable {
         return {
             type: this.type,
-            args: this.args.map( arg => arg instanceof Query ? arg.serialize() : arg.toString() ).sort()
+            args: this.args.map( arg => arg instanceof Query ? arg.serialize() : id(arg) ).sort()
         };
     }
 }

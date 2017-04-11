@@ -1,16 +1,16 @@
-import * as _ from 'underscore';
+import { union, intersection } from 'lodash';
 
 import { Entity } from './entity.class';
-import { TagClass } from './manager.interfaces';
+import { Class } from './tag.interfaces';
 
 
 
 
-export function andExecutor( tags: TagClass<any>[], ents: Entity[] ): Entity[] {
+export function andExecutor( tags: Class<any>[], ents: Entity[] ): Entity[] {
     return ents.filter( e => e.markedWith(tags, 'and'));
 }
 
-export function orExecutor( tags: TagClass<any>[], ents: Entity[] ): Entity[] {
+export function orExecutor( tags: Class<any>[], ents: Entity[] ): Entity[] {
     return ents.filter( e => e.markedWith(tags, 'or'));
 }
 
@@ -19,9 +19,9 @@ export function setInvertor( ents: Entity[], whole: Entity[] ): Entity[] {
 }
 
 export function setsUnioner<T>( sets: T[][] ): T[] {
-    return _.union.apply(_, sets);
+    return union.apply(null, sets);
 }
 
 export function setsIntersector<T>( sets: T[][] ): T[] {
-    return _.intersection.apply(_, sets);
+    return intersection.apply(null, sets);
 }

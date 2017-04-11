@@ -1,15 +1,12 @@
 import 'jasmine';
 
 import { Entity } from './entity.class';
-import { Manager } from './manager.class';
+import { Tag } from './tag.decorator';
 
-
+@Tag() class TAG1 { constructor(public v = 1) {} }
+@Tag() class TAG2 {}
 
 describe(`Entities opertaions`, () => {
-    const TAG1 = Manager.createTag(() => 1);
-    const TAG2 = Manager.createTag(() => 2);
-    const TAG3 = Manager.createTag(() => ({value: 3}));
-
     let e = new Entity();
 
     it(`should create an instance`, () => {
@@ -36,9 +33,8 @@ describe(`Entities opertaions`, () => {
         expect(e.markedWith([TAG1, TAG2], 'and')).toBeTruthy();
     });
     it(`should correctly get mark`, () => {
-        expect(e.mark(new TAG1(43)).getMark(TAG1)).toBe(43);
-        expect((e.mark(new TAG3({ value: 42 })).getMark(TAG3) as { value: number }).value).toBe(42);
-        expect(e.mark(new TAG1()).getMark(TAG1)).toBe(1);
+        expect(e.mark(new TAG1(43)).getMark(TAG1).v).toBe(43);
+        expect(e.mark(new TAG1()).getMark(TAG1).v).toBe(1);
         expect(e.unmark(TAG1).getMark(TAG1)).toBeUndefined();
     });
 });

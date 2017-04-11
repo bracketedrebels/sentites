@@ -1,10 +1,9 @@
-import { Tag } from './tag.class';
-import { TagClass } from './manager.interfaces';
+import { TaggedClassInstance, Class } from './tag.interfaces';
 
 export interface Entity {
     toString(): string;
-    mark(tags: Tag<any>[] | Tag<any>): this;
-    unmark(tags: TagClass<any>[] | TagClass<any>): this;
-    markedWith(tags: TagClass<any>[] | TagClass<any>, mode: 'and' | 'or'): boolean;
-    getMark<T>(tag: TagClass<T>): T | void;
+    mark(tags: TaggedClassInstance[] | TaggedClassInstance): this;
+    unmark(tags: Class<any>[] | Class<any>): this;
+    markedWith(tags: Class<any>[] | Class<any>, mode: 'and' | 'or'): boolean;
+    getMark<T extends TaggedClassInstance>(tag: Class<T>): T | void;
 }

@@ -1,16 +1,16 @@
 import 'jasmine';
 
-import { Manager } from './manager.class';
 import { Query } from './query.class';
 import { QueryTypes } from './query.enums';
+import { Tag } from './tag.decorator';
+import { id } from './tag.helpers';
 
+@Tag() class TAG1 {}
+@Tag() class TAG2 {}
+@Tag() class TAG3 {}
 
 
 describe(`Query`, () => {
-    const TAG1 = Manager.createTag(() => 1);
-    const TAG2 = Manager.createTag(() => 2);
-    const TAG3 = Manager.createTag(() => 3);
-
     it(`should pass correct queries validation`, () => {
         expect(new Query(QueryTypes.all, [])).toBeTruthy();
         expect(new Query(QueryTypes.none, [])).toBeTruthy();
@@ -32,7 +32,7 @@ describe(`Query`, () => {
     });
     it(`should be correctly serializable`, () => {
         let [all, none, not, and, or] = [ QueryTypes.all, QueryTypes.none, QueryTypes.not, QueryTypes.and, QueryTypes.or ];
-        let [t1, t2] = [ TAG1.toString(), TAG2.toString() ];
+        let [t1, t2] = [ id(TAG1), id(TAG2) ];
 
         expect((new Query(all, [])).toString())
             .toBe(`{"type":${all},"args":[]}`);
